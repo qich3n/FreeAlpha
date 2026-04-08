@@ -1,0 +1,9 @@
+{
+  "name": "freealpha",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler pages dev public --port 8080",
+    "deploy": "npx wrangler pages deploy public --project-name freealpha"
+  }
+}

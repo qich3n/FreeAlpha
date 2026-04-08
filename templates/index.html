@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreeAlpha – Options Greeks Dashboard</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <h1>Free<span class="accent">Alpha</span></h1>
+      <span class="tagline">Options Greeks Dashboard</span>
+    </div>
+    <div class="header-right">
+      <div class="control-group">
+        <label for="symbolSelect">Underlying</label>
+        <select id="symbolSelect">
+          <option value="SPY" selected>SPY</option>
+          <option value="SPX">SPX</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="expSelect">Expiration</label>
+        <select id="expSelect">
+          <option value="">Nearest 4</option>
+        </select>
+      </div>
+      <button id="loadBtn" class="btn-primary">Load Data</button>
+    </div>
+  </header>
+
+  <!-- Loading overlay -->
+  <div id="loading" class="loading hidden">
+    <div class="spinner"></div>
+    <p>Fetching options data&hellip;</p>
+  </div>
+
+  <!-- Error banner -->
+  <div id="errorBanner" class="error-banner hidden"></div>
+
+  <!-- Summary cards -->
+  <section id="summarySection" class="summary-section hidden">
+    <div class="summary-cards">
+      <div class="card" id="spotCard">
+        <div class="card-label">Spot Price</div>
+        <div class="card-value" id="spotValue">—</div>
+      </div>
+      <div class="card green" id="dexCard">
+        <div class="card-label">Net Delta Exposure</div>
+        <div class="card-value" id="dexValue">—</div>
+      </div>
+      <div class="card blue" id="gexCard">
+        <div class="card-label">Net Gamma Exposure</div>
+        <div class="card-value" id="gexValue">—</div>
+      </div>
+      <div class="card purple" id="vexCard">
+        <div class="card-label">Net Vega Exposure</div>
+        <div class="card-value" id="vexValue">—</div>
+      </div>
+      <div class="card orange" id="cexCard">
+        <div class="card-label">Net Charm Exposure</div>
+        <div class="card-value" id="cexValue">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section id="chartsSection" class="charts-section hidden">
+    <div class="chart-grid">
+      <div class="chart-container">
+        <h3>Gamma Exposure by Strike (GEX)</h3>
+        <canvas id="gexChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Delta Exposure by Strike (DEX)</h3>
+        <canvas id="dexChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Vega Exposure by Strike (VEX)</h3>
+        <canvas id="vexChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Charm Exposure by Strike (CEX)</h3>
+        <canvas id="cexChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chain table -->
+  <section id="tableSection" class="table-section hidden">
+    <h2>Options Chain – Per-Strike Greeks</h2>
+    <div class="table-controls">
+      <div class="control-group">
+        <label for="tableExpFilter">Expiration</label>
+        <select id="tableExpFilter"><option value="">All</option></select>
+      </div>
+      <div class="control-group">
+        <label for="tableTypeFilter">Type</label>
+        <select id="tableTypeFilter">
+          <option value="">All</option>
+          <option value="call">Calls</option>
+          <option value="put">Puts</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="strikeRange">Strike Range (% from spot)</label>
+        <input type="range" id="strikeRange" min="1" max="30" value="10" />
+        <span id="strikeRangeLabel">±10%</span>
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table id="chainTable">
+        <thead>
+          <tr>
+            <th>Exp</th>
+            <th>Strike</th>
+            <th>Type</th>
+            <th>Bid</th>
+            <th>Ask</th>
+            <th>Last</th>
+            <th>Vol</th>
+            <th>OI</th>
+            <th>IV</th>
+            <th>Delta</th>
+            <th>Gamma</th>
+            <th>Vega</th>
+            <th>Theta</th>
+            <th>Charm</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Data sourced from Yahoo Finance via yfinance. Greeks computed with Black-Scholes. For educational purposes only.</p>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
